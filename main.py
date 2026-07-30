@@ -1,6 +1,7 @@
 from amazon_product_sales.extract.extract_dataset import extract_dataset
 from amazon_product_sales.utils.get_paths import build_paths
 from amazon_product_sales.transform.clean_dataset import clean_heads
+from amazon_product_sales.load.load_dataset import generate_clean_csv
 from pathlib import Path
 import pandas as pd
 
@@ -8,8 +9,8 @@ import pandas as pd
 def run_pipeline() -> Path:
     paths = build_paths()
     df = clean_heads(extract_dataset(paths["raw"] / "amazon_sales_data_uncleaned.csv"))
-
-    print(df.head())
+    output_path = generate_clean_csv(df)
+    print(output_path)
 
 
 # Press the green button in the gutter to run the script.

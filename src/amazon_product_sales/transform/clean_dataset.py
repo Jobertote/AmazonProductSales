@@ -1,9 +1,10 @@
 import pandas as pd
 
-def clean_heads(df: pd.Dataframe) -> pd.Dataframe:
+def clean_heads(df: pd.DataFrame) -> pd.DataFrame:
     cleaned_df = df.copy()
     cleaned_df.columns = (
         cleaned_df.columns
+        .str.lower()
         .str.strip()
         .str.replace(" ","_")
         .str.replace("-","_")
