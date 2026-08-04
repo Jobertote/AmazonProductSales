@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def get_keep_columns(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
     missing_columns = [column for column in columns if column not in df.columns]
@@ -99,4 +100,27 @@ def normalize_listed_price(df: pd.DataFrame) -> pd.DataFrame:
         .astype("float")
     )
 
+    return df
+
+def normalize_number_reviews(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+
+    df["number_reviews"] = (
+        df["number_of_reviews"]
+        .str.replace(",", "", regex=False)
+        .str.extract(r"(\d+)", expand=False)
+        .astype("float")
+    )
+    return df
+
+normalize_nuber_review = normalize_number_reviews
+
+def calculate_final_price(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+
+    df["final_price"] = (
+        df["current_discounted_price_f"]
+        .replace("", np.nan)
+        .fillna(df["price_variant"])
+    )
     return df
